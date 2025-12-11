@@ -1,6 +1,7 @@
 # Video Generation Agent - 视频故事生成器
 
-这是一个基于火山引擎 AgentKit 的“成语绘本故事视频生成”Agent。它会根据用户输入的成语故事情节：
+这是一个基于火山引擎 AgentKit 的"成语绘本故事视频生成"Agent。它会根据用户输入的成语故事情节：
+
 - 生成四张卡通风格的分镜插画
 - 以相邻分镜为首尾帧生成三段过渡视频
 - 通过本地 MCP 工具将三段视频顺序拼接为完整成片
@@ -9,6 +10,7 @@
 ## 概述
 
 ## 核心功能
+
 本用例展示如何构建一个生产级视频生成系统,具备以下能力:
 
 - 智能故事助手：基于用户提供的故事或情节，进行故事情节理解与提炼、结合背景信息检索、将故事拆分成三个场景并重写故事描述
@@ -20,6 +22,7 @@
 ## 架构
 
 ### 系统架构
+
 ![Video Generation Agent with AgentKit Runtime](img/archtecture_video_gen.jpg)
 
 ```
@@ -37,13 +40,13 @@ AgentKit 运行时
 
 ### 核心组件
 
-| 组件 | 描述 |
-|-----------|-------------|
-| **Agent 服务** | [`agent.py`](agent.py) - 主应用程序,包含 MCP 工具注册 |
+| 组件                 | 描述                                                     |
+| -------------------- | -------------------------------------------------------- |
+| **Agent 服务** | [`agent.py`](agent.py) - 主应用程序,包含 MCP 工具注册     |
 | **Agent 配置** | [`agent.yaml`](agent.yaml) - 模型设置、系统指令和工具列表 |
-| **自定义工具** | [`tool/`](tool/) - 文件下载和 TOS 上传实用工具 |
-| **MCP 集成** | `@pickstar-2002/video-clip-mcp` - 本地视频拼接服务 |
-| **短期记忆** | 会话上下文维护以保持对话连续性 |
+| **自定义工具** | [`tool/`](tool/) - 文件下载和 TOS 上传实用工具            |
+| **MCP 集成**   | `@pickstar-2002/video-clip-mcp` - 本地视频拼接服务     |
+| **短期记忆**   | 会话上下文维护以保持对话连续性                           |
 
 ## 快速开始
 
@@ -60,25 +63,25 @@ AgentKit 运行时
 1. 登录 [火山引擎控制台](https://console.volcengine.com)
 2. 进入"访问控制" → "用户" -> 新建用户 或 搜索已有用户名 -> 点击用户名进入"用户详情" -> 进入"密钥" -> 新建密钥 或 复制已有的 AK/SK
    - 如下图所示
-   ![Volcengine AK/SK Management](../img/volcengine_aksk.jpg)
+     ![Volcengine AK/SK Management](../img/volcengine_aksk.jpg)
 3. 为用户配置 AgentKit运行所依赖服务的访问权限:
    - 在"用户详情"页面 -> 进入"权限" -> 点击"添加权限"，将以下策略授权给用户
-    - `AgentKitFullAccess`（AgentKit 全量权限）
-    - `APMPlusServerFullAccess`（APMPlus 全量权限）
+   - `AgentKitFullAccess`（AgentKit 全量权限）
+   - `APMPlusServerFullAccess`（APMPlus 全量权限）
 4. 为用户获取火山方舟模型 Agent API Key
    - 搜索"火山方舟"产品，点击进入控制台
    - 进入"API Key管理" -> 创建 或 复制已有的 API Key
    - 如下图所示
-   ![Ark API Key Management](../img/ark_api_key_management.jpg)
+     ![Ark API Key Management](../img/ark_api_key_management.jpg)
 5. 开通模型预置推理接入点
    - 搜索"火山方舟"产品，点击进入控制台
    - 进入"开通管理" -> "语言模型" -> 找到相应模型 -> 点击"开通服务"
    - 开通本案例中使用到的以下模型
-        - root_agent模型：`deepseek-v3-1-terminus`
-        - 生图模型：`doubao-seedream-4-0-250828`
-        - 生视频模型：`doubao-seedance-1-0-pro-250528`
+     - root_agent模型：`deepseek-v3-1-terminus`
+     - 生图模型：`doubao-seedream-4-0-250828`
+     - 生视频模型：`doubao-seedance-1-0-pro-250528`
    - 如下图所示
-   ![Ark Model Service Management](../img/ark_model_service_management.jpg)
+     ![Ark Model Service Management](../img/ark_model_service_management.jpg)
 
 ### 安装依赖
 
@@ -91,13 +94,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 cd 02-use-cases/video_gen
 
 # create virtual environment
-uv venv --python 3.12
-
-# activate virtual environment
-source .venv/bin/activate
-
-# install necessary dependencies
-uv pip install -r requirements.txt
+uv sync
 ```
 
 **注意:** MCP 视频工具 (`@pickstar-2002/video-clip-mcp`) 在智能体运行时会通过 `npx` 自动启动。无需手动安装。
@@ -117,28 +114,69 @@ export DOWNLOAD_DIR=/tmp
 ```
 
 **TOS 存储桶配置:**
+
 - 默认存储桶: `agentkit-platform-{{your_account_id}}`
-    - 其中`{{your_account_id}}`需要替换为您的火山引擎账号 ID
-    - 示例: `DATABASE_TOS_BUCKET=agentkit-platform-12345678901234567890`
+  - 其中 `{{your_account_id}}`需要替换为您的火山引擎账号 ID
+  - 示例: `DATABASE_TOS_BUCKET=agentkit-platform-12345678901234567890`
 - 若需自定义,可在 [`tool/tos_upload.py`](tool/tos_upload.py) 中修改 `bucket_name` 参数或在工具调用时传入
 
 ## 本地测试
 
+### 方法 1: 直接 API 调用
+
+启动智能体服务:
+
+```bash
+uv run agent.py
+# 服务默认监听 0.0.0.0:8000
+```
+
+**步骤 1: 获取应用名称**
+
+智能体名称与 [`agent.yaml`](agent.yaml) 中的 `name` 字段一致,即 `storybook_illustrator`。
+
+```bash
+curl --location 'http://localhost:8000/list-apps'
+```
+
+**步骤 2: 创建会话**
+
+```bash
+curl --location --request POST 'http://localhost:8000/apps/storybook_illustrator/users/u_123/sessions/s_123' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+
+**步骤 3: 发送消息**
+
+```bash
+curl --location 'http://localhost:8000/run_sse' \
+--header 'Content-Type: application/json' \
+--data '{
+    "appName": "storybook_illustrator",
+    "userId": "u_123",
+    "sessionId": "s_123",
+    "newMessage": {
+        "role": "user",
+        "parts": [{
+            "text": "请根据寓言《狐假虎威》生成绘本故事视频"
+        }]
+    },
+    "streaming": true
+}'
+```
+
+### 方法 2: 使用 veadk web
+
 使用 `veadk web` 进行本地调试:
+
 > `veadk web`是一个基于 FastAPI 的 Web 服务，用于调试 Agent 应用。运行该命令时，会启动一个web服务器，这个服务器会加载并运行您的 agentkit 智能体代码，同时提供一个聊天界面，您可以在聊天界面与智能体进行交互。在界面的侧边栏或特定面板中，您可以查看智能体运行的细节，包括思考过程（Thought Process）、工具调用（Tool calls）、模型输入/输出。
 
 ```bash
 # 1. 进入上一级目录
 cd 02-use-cases
 
-# 2. 可选: 创建 .env 文件 (如果已设置环境变量可跳过)
-touch .env
-echo "VOLCENGINE_ACCESS_KEY=AK" >> .env
-echo "VOLCENGINE_SECRET_KEY=SK" >> .env
-echo "DATABASE_TOS_BUCKET=agentkit-platform-{{your_account_id}}" >> .env
-echo "MODEL_AGENT_API_KEY={{your_model_agent_api_key}}" >> .env
-
-# 3.启动 veadk web 界面
+# 2.启动 veadk web 界面
 veadk web
 ```
 
@@ -153,6 +191,7 @@ veadk web
 - **3D 动画**: "凡人修仙传虚天殿大战,3D 动漫风格"
 
 **预期行为:**
+
 1. 生成 4 张插画分镜帧
 2. 在连续帧之间创建 3 段过渡视频
 3. 启动本地 MCP 工具拼接视频
@@ -161,7 +200,7 @@ veadk web
 
 ## 部署
 
-1. 部署到火山引擎 AgentKit Runtime:
+部署到火山引擎 AgentKit Runtime:
 
 ```bash
 # 1. 进入项目目录
@@ -176,11 +215,46 @@ agentkit config \
 
 # 3. 部署到运行时
 agentkit launch
+
+# 4. 调用智能体
+agentkit invoke '{"prompt": "用国风画一个熊猫冒险的故事"}'
 ```
-2. 调用智能体
+
+### 测试已部署的智能体
+
+部署成功后:
+
+1. 访问 [火山引擎 AgentKit 控制台](https://console.volcengine.com/agentkit/region:agentkit+cn-beijing/runtime)
+2. 点击 **Runtime** 查看已部署的智能体 `storybook_illustrator`
+3. 获取公网访问域名 (例如: `https://xxxxx.apigateway-cn-beijing.volceapi.com`) 和 API Key
+
+**创建会话:**
 
 ```bash
-agentkit invoke '{"prompt": "用国风画一个熊猫冒险的故事"}'
+curl --location --request POST 'https://xxxxx.apigateway-cn-beijing.volceapi.com/apps/storybook_illustrator/users/u_123/sessions/s_124' \
+--header 'Content-Type: application/json' \
+--header 'Authorization: <您的_api_key>' \
+--data ''
+```
+
+**发送消息:**
+
+```bash
+curl --location 'https://xxxxx.apigateway-cn-beijing.volceapi.com/run_sse' \
+--header 'Authorization: <您的_api_key>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "appName": "storybook_illustrator",
+    "userId": "u_123",
+    "sessionId": "s_124",
+    "newMessage": {
+        "role": "user",
+        "parts": [{
+            "text": "请根据寓言《狐假虎威》生成绘本故事视频"
+        }]
+    },
+    "streaming": false
+}'
 ```
 
 ## 📁 项目结构
@@ -203,39 +277,49 @@ video_gen/
 ## 🔍 主要特性
 
 ### 智能分镜生成
+
 自动将叙事分解为 4 个视觉关键帧,保持风格一致性和角色连续性。
 
 ### 无缝视频过渡
+
 使用先进的视觉 AI 模型在帧之间生成流畅的过渡视频。
 
 ### 本地 MCP 工具集成
+
 利用模型上下文协议进行高效的本地视频处理,无需云端依赖。
 
 ### 自动上传与分享
+
 将完成的视频上传到 TOS,并生成限时签名 URL 以安全分享。
 
 ### 迭代优化
+
 维护对话上下文,允许用户请求对风格、节奏或内容进行调整。
 
 ## 常见问题
 
 **错误: `npx` 命令未找到**
+
 - 安装 Node.js 18+ 和 npm
 - 在终端中验证 `npx --version` 可以正常运行
 
 **TOS 上传失败**
+
 - 确认已设置 `VOLCENGINE_ACCESS_KEY` 和 `VOLCENGINE_SECRET_KEY`
 - 验证您的账户具有 TOS 存储桶访问权限
 
 **MCP 工具连接错误**
+
 - 确保默认 MCP 端口没有冲突
 - 查看 Node.js 进程日志以获取详细错误信息
 
 **使用自定义 TOS 存储桶**
+
 - 通过环境变量设置: `export DATABASE_TOS_BUCKET="agentkit-platform-{{account_id}}"`
 - 或在 [`tool/tos_upload.py`](tool/tos_upload.py) 中修改默认值
 
 **uv sync 失败**
+
 - 确保已安装 Python 3.12+
 - 检查 `.python-version` 文件与您的 Python 安装版本是否匹配
 - 尝试使用 `uv sync --refresh` 重新构建依赖
@@ -245,4 +329,4 @@ video_gen/
 - [AgentKit 官方文档](https://www.volcengine.com/docs/86681/1844878?lang=zh)
 - [TOS 对象存储](https://www.volcengine.com/product/TOS)
 - [AgentKit 控制台](https://console.volcengine.com/agentkit/region:agentkit+cn-beijing/overview?projectName=default)
-- [火山方舟 控制台](https://console.volcengine.com/ark/region:ark+cn-beijing/overview?briefPage=0&briefType=introduce&type=new)
+- [火山方舟控制台](https://console.volcengine.com/ark/region:ark+cn-beijing/overview?briefPage=0&briefType=introduce&type=new)
