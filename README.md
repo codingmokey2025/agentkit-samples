@@ -29,6 +29,7 @@ AgentKit is an enterprise-level AI Agent development platform launched by Volcen
 This repository contains a collection of examples and tutorials to help you understand, implement, and integrate AgentKit functionalities into your applications.
 
 ## Project Structure
+
 ```bash
 .
 ├── 01-tutorials
@@ -49,6 +50,7 @@ This repository contains a collection of examples and tutorials to help you unde
 │   │   └── README.md
 │   ├── customer_support
 │   └── video_gen
+├── template/ # Template project for AgentKit samples
 ├── README.md
 └── README.zh.md
 ```
@@ -99,7 +101,7 @@ All examples require you to first install the AgentKit SDK [Installation Referen
 
 Each example follows the standard AgentKit application structure:
 
-```
+```text
 Example Directory/
 ├── agent.py          # Agent main program
 ├── requirements.txt  # Dependency list
@@ -120,12 +122,10 @@ We welcome community contributions! If you have new examples or improvement sugg
 
 1. Fork this repository
 2. Create a feature branch (`git checkout -b feature/amazing-example`)
-3. Commit your changes (`git commit -m 'Add amazing example'`)
-4. Push to the branch (`git push origin feature/amazing-example`)
-5. Create a Pull Request
-
-## License
-This project is licensed under the [Apache 2.0 License](./LICENSE)
+3. **Copy the template directory**: Copy the `template/` directory as your new example directory, and rename it to your example name
+4. Commit your changes (`git commit -m 'Add amazing example'`)
+5. Push to the branch (`git push origin feature/amazing-example`)
+6. Create a Pull Request
 
 ## Support & Feedback
 
@@ -137,6 +137,10 @@ This project is licensed under the [Apache 2.0 License](./LICENSE)
 - [AgentKit Official Website](https://www.volcengine.com/docs/86681/1844823?lang=zh)
 - [AgentKit SDK/CLI Documentation](https://volcengine.github.io/agentkit-sdk-python/)
 - [veadk Official Documentation](https://volcengine.github.io/veadk-python/)
+
+## License
+
+This project is licensed under the [Apache 2.0 License](./LICENSE)
 
 ---
 
