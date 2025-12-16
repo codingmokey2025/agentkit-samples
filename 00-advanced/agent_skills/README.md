@@ -254,6 +254,7 @@ uv run client.py
 ## 示例提示词
 
 - 记得修改一下 {YOUR_TOS_BUCKET_NAME}，这是 AgentKit 默认为用户创建的 tos 存储桶，一般格式为 `agentkit-platform-{your_account_id}`
+- 下载自己 tos 中的 skills 到 sandbox，需要在 `agentkit-platform-{your_account_id}` 这个 tos 存储桶中，新建 skills 文件夹，然后将需要的 skills 上传到这个文件夹
 - 如果需要下载自己 tos 中的一些文件，提示词中举例的 tos url 不可用，需要替换为自己的 tos url
 
 | 是否使用 aio 中的内置 skills | 产物是否上传 tos | 示例提示词      |
