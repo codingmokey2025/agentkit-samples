@@ -3,6 +3,7 @@ import json
 import os
 
 import lark_oapi as lark
+from agent.agent import run_agent
 from dotenv import load_dotenv
 from lark_oapi.api.im.v1.model import (
     CreateMessageRequest,
@@ -11,8 +12,6 @@ from lark_oapi.api.im.v1.model import (
     ReplyMessageRequestBody,
 )
 from lark_oapi.api.im.v1.processor import P2ImMessageReceiveV1
-
-from agent.agent import run_agent
 
 load_dotenv()
 
@@ -48,7 +47,6 @@ def send_text_message(data: P2ImMessageReceiveV1, content: str):
             .build()
         )
 
-        # 使用OpenAPI发送消息
         # Use send OpenAPI to send messages
         # https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/create
         response = client.im.v1.message.create(request)
@@ -69,7 +67,7 @@ def send_text_message(data: P2ImMessageReceiveV1, content: str):
             )
             .build()
         )
-        # 使用OpenAPI回复消息
+
         # Reply to messages using send OpenAPI
         # https://open.feishu.cn/document/uAjLw4CM/ukTMukTMukTM/reference/im-v1/message/reply
         response = client.im.v1.message.reply(request)
@@ -83,7 +81,7 @@ def send_text_message(data: P2ImMessageReceiveV1, content: str):
 
 def handle_agent_result(data: P2ImMessageReceiveV1, task: asyncio.Task):
     try:
-        result = task.result()  # 👈 run_agent 的 return
+        result = task.result()
         print("agent result:", result)
     except Exception as e:
         print("run agent error:", e)
@@ -143,7 +141,6 @@ wsClient = lark.ws.Client(
 
 
 def main():
-    #  启动长连接，并注册事件处理器。
     #  Start long connection and register event handler.
     wsClient.start()
 
