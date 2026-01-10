@@ -160,7 +160,7 @@ uv run agent.py
 # The service will listen on http://0.0.0.0:8000
 
 # Open a new terminal and run the test client
-# You will need to edit client.py, changing the base_url and api_key on lines 14 and 15 to the runtime_endpoint and runtime_apikey generated in agentkit.yaml
+# You will need to edit client.py, changing the base_url to http://0.0.0.0:8000
 uv run client.py
 ```
 

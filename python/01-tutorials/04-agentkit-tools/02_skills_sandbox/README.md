@@ -160,7 +160,7 @@ uv run agent.py
 # 服务将监听 http://0.0.0.0:8000
 
 # 新开终端，运行测试客户端
-# 需要编辑 client.py，将其中的第 14 行和第 15 行的 base_url 和 api_key 修改为 agentkit.yaml 中生成的 runtime_endpoint 和 runtime_apikey 字段
+# 需要编辑 client.py，将其中的第 14 行和第 15 行的 base_url 修改为 http://0.0.0.0:8000
 uv run client.py
 ```
 
