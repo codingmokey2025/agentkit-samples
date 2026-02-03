@@ -21,7 +21,6 @@ import sys
 # 正常的导入和代码
 # ============================================================
 
-import json
 import os
 from pathlib import Path
 from typing import Any
@@ -135,6 +134,7 @@ feishu_doc_tool = VeIdentityFunctionTool(
 # 凭证清理工具（用于重新触发授权）
 # ============================================================
 
+
 async def clean_feishu_state(
     args: dict[str, Any], *, tool_context: ToolContext
 ) -> None:
@@ -199,6 +199,7 @@ from google.genai import types
 app = AgentkitSimpleApp()
 app_name = "simple_streamable_app"
 runner = Runner(app_name=app_name, agent=agent)
+
 
 @app.entrypoint
 async def run(payload: dict, headers: dict) -> AsyncGenerator[Event, None]:
