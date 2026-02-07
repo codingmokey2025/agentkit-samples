@@ -29,8 +29,15 @@ from agentkit.apps import AgentkitAgentServerApp  # noqa: E402
 from tools.catalog_discovery import catalog_discovery  # noqa: E402
 from tools.duckdb_sql_execution import duckdb_sql_execution  # noqa: E402
 from tools.lancedb_hybrid_execution import lancedb_hybrid_execution  # noqa: E402
-from prompts import SYSTEM_PROMPT  # noqa: E402
+from prompts import SYSTEM_PROMPT_CN, SYSTEM_PROMPT_EN  # noqa: E402
 
+
+# 根据 CLOUD_PROVIDER 环境变量选择语言
+provider = os.getenv("CLOUD_PROVIDER")
+if provider and provider.lower() == "byteplus":
+    SYSTEM_PROMPT = SYSTEM_PROMPT_EN
+else:
+    SYSTEM_PROMPT = SYSTEM_PROMPT_CN
 
 short_term_memory = ShortTermMemory(backend="local")
 
@@ -62,20 +69,6 @@ root_agent = Agent(
 
 runner = Runner(agent=root_agent)
 
-# a2a_app = AgentkitA2aApp()
-
-# @a2a_app.agent_executor(runner=runner)
-# class MyAgentExecutor(A2aAgentExecutor):
-#     pass
-
-# # 当直接运行此文件时，启动本地服务
-# if __name__ == "__main__":
-#     logger.info("🚀 正在启动 A2A Agent 服务...")
-#     a2a_app.run(
-#         agent_card=get_agent_card(agent=root_agent, url="http://127.0.0.1:8000"),
-#         host="0.0.0.0",
-#         port=8000,
-#     )
 
 agent_server_app = AgentkitAgentServerApp(
     agent=root_agent,
