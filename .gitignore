@@ -14,6 +14,7 @@ __pycache__/
 .dockerignore
 config.yaml
 .agentkit/
+.bak
 
 # Distribution / packaging
 .Python
@@ -33,6 +34,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+outputs/
+dist/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -51,6 +54,7 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
+.ruff_cache
 nosetests.xml
 coverage.xml
 *.cover
@@ -202,3 +206,4 @@ docs/node_modules/
 .adk/
 .trae/
 .zip
+.agent
